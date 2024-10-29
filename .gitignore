@@ -5,6 +5,7 @@ __pycache__/
 
 #Models
 *.pth
+datasets/
 
 # C extensions
 *.so

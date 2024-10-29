@@ -135,7 +135,7 @@ def create_datasets(num_train_images):
     val_data_selected = []
     batch_size = 1024
 
-    for batch in val_data.iter(batch_size=batch_size):
+    '''for batch in val_data.iter(batch_size=batch_size):
         for i in range(len(batch['id'])):
             sample = {key: batch[key][i] for key in batch}
             val_data_selected.append(sample)
@@ -148,14 +148,14 @@ def create_datasets(num_train_images):
             _, val_stats = save_images(val_df, os.path.join(output_dir, "test"), stats=val_stats)
 
         if val_samples >= num_val_images:
-            break
+            break'''
 
     # Process training images
     train_samples = 0
     total_deepfake_count = 0
     batch_count = 0
 
-    for idx, batch in enumerate(loaded_data.iter(batch_size=batch_size), start=1):
+    '''for idx, batch in enumerate(loaded_data.iter(batch_size=batch_size), start=181):
         sampled_data = []
         print(f"Processing batch {idx}...")
         
@@ -173,13 +173,14 @@ def create_datasets(num_train_images):
 
         if train_samples >= num_train_images:
             break
-        batch_count += 1
+        batch_count += 1'''
 
     # Process test images
     test_samples = 0
     test_data = []
 
-    for batch in loaded_data.iter(batch_size=batch_size, start=batch_count):
+    for idx, batch in enumerate(loaded_data.iter(batch_size=batch_size), start=2429):
+    #for batch in loaded_data.iter(batch_size=batch_size, start=batch_count):
         for i in range(len(batch['id'])):
             sample = {key: batch[key][i] for key in batch}
             test_data.append(sample)

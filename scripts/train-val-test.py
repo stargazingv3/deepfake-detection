@@ -177,5 +177,5 @@ def create_datasets(num_train_images):
     print(f"Percentage of Deepfakes in Train Set: {deepfake_percentage:.2f}%")
 
 if __name__ == "__main__":
-    num_train_images = 100  # Set this to the desired number of training images
+    num_train_images = 10000  # Set this to the desired number of training images
     create_datasets(num_train_images)

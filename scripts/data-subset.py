@@ -10,8 +10,8 @@ def create_subsets(base_path, num_train_real):
     test_real_path = os.path.join(base_path, 'test', 'real')
     test_fake_path = os.path.join(base_path, 'test', 'fake')
 
-    # Calculate the number of images for the test set
-    num_test_images = int(num_train_real * 0.1)  # 10% of train
+    # Calculate the number of images for the test and validation sets
+    num_test_images = 4268  # Number of images for test/val sets
 
     # Create a new directory for subsets
     subsets_path = f'/data/elsa-{num_train_real}'
@@ -22,7 +22,7 @@ def create_subsets(base_path, num_train_real):
     os.makedirs(train_subset_path, exist_ok=True)
 
     selected_train_real = random.sample(os.listdir(train_real_path), num_train_real)
-    selected_train_fake = random.sample(os.listdir(train_fake_path), num_train_real)  # Change as needed
+    selected_train_fake = random.sample(os.listdir(train_fake_path), num_train_real)
 
     os.makedirs(os.path.join(train_subset_path, 'real'), exist_ok=True)
     os.makedirs(os.path.join(train_subset_path, 'fake'), exist_ok=True)
@@ -33,12 +33,28 @@ def create_subsets(base_path, num_train_real):
     for img in selected_train_fake:
         shutil.copy(os.path.join(train_fake_path, img), os.path.join(train_subset_path, 'fake', img))
 
+    # Create validation subset
+    val_subset_path = os.path.join(subsets_path, 'val')
+    os.makedirs(val_subset_path, exist_ok=True)
+
+    selected_val_real = random.sample(os.listdir(train_real_path), num_test_images)
+    selected_val_fake = random.sample(os.listdir(train_fake_path), num_test_images)
+
+    os.makedirs(os.path.join(val_subset_path, 'real'), exist_ok=True)
+    os.makedirs(os.path.join(val_subset_path, 'fake'), exist_ok=True)
+
+    for img in selected_val_real:
+        shutil.copy(os.path.join(train_real_path, img), os.path.join(val_subset_path, 'real', img))
+
+    for img in selected_val_fake:
+        shutil.copy(os.path.join(train_fake_path, img), os.path.join(val_subset_path, 'fake', img))
+
     # Create test subset
     test_subset_path = os.path.join(subsets_path, 'test')
     os.makedirs(test_subset_path, exist_ok=True)
 
     selected_test_real = random.sample(os.listdir(test_real_path), num_test_images)
-    selected_test_fake = random.sample(os.listdir(test_fake_path), num_test_images)  # Change as needed
+    selected_test_fake = random.sample(os.listdir(test_fake_path), num_test_images)
 
     os.makedirs(os.path.join(test_subset_path, 'real'), exist_ok=True)
     os.makedirs(os.path.join(test_subset_path, 'fake'), exist_ok=True)
@@ -53,5 +69,5 @@ def create_subsets(base_path, num_train_real):
 
 if __name__ == "__main__":
     base_path = '/data/elsa'
-    num_train_real = 10000  # Specify the number of real train images to select
+    num_train_real = 100000  # Specify the number of real train images to select
     create_subsets(base_path, num_train_real)
