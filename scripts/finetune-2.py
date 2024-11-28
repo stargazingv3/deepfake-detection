@@ -2,7 +2,7 @@ import os
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from torch.utils.data import DataLoader, Dataset
+from torch.utils.data import DataLoader, Dataset, Subset
 from torchvision import transforms
 from PIL import Image
 from tqdm import tqdm
@@ -91,6 +91,9 @@ def create_datasets(root_dir):
     # Combine real and fake datasets for train and validation
     train_dataset = train_dataset_fake + train_dataset_real
     val_dataset = val_dataset_fake + val_dataset_real
+
+    #train_dataset = Subset(train_dataset, range(1000))
+    #val_dataset = Subset(val_dataset, range(100))
 
     return train_dataset, val_dataset
 
