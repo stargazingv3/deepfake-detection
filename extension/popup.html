@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Deepfake Detector</title>
+</head>
+<body>
+    <h3>Click on an image to classify it!</h3>
+    <p id="result">Prediction: N/A</p> <!-- Show the result here -->
+</body>
+<script>
+    chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+        if (request.action === 'showResult') {
+            document.getElementById('result').innerText = 
+                `Prediction: ${request.prediction} (Confidence: ${request.confidence})`;
+        }
+    });
+</script>
+</html>
