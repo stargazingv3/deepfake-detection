@@ -83,13 +83,7 @@ def load_model(model_path):
     model.eval()
     return model
 
-#model = load_model('finetuned-wild.pth')  # Adjust this to your model path
-state_dict = torch.load('checkpoint_vitb.pth', map_location='cpu')
-print("keys:\n", state_dict.keys())
-
-
-#model = load_VIT_model('checkpoint_vitb.pth')
-
+model = load_model('deepfake_model_best.pth')  # Adjust this to your model path
 
 # Helper to convert base64 image to PIL image
 def decode_base64(base64_str):
@@ -127,5 +121,5 @@ def classify_image():
 
 if __name__ == '__main__':
     # Bind Flask to all network interfaces (0.0.0.0) to allow external access
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=5001)
 

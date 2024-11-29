@@ -1,6 +1,6 @@
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     if (request.action === 'classifyImage') {
-        fetch('http://localhost:5000/classify', {
+        fetch('http://localhost:5001/classify', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
