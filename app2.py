@@ -96,4 +96,4 @@ def classify_image():
 
 if __name__ == '__main__':
     # Bind Flask to all network interfaces (0.0.0.0) to allow external access
-    app.run(host="0.0.0.0", port=5001)
+    app.run(host="0.0.0.0", port=5000)
