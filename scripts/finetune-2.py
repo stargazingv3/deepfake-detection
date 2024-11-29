@@ -102,13 +102,13 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model = DeepFakeModel().to(device)
 
 # Load the model checkpoint directly as a state dict
-model_path = 'finetuned-CELEBDF.pth'
+model_path = 'finetuned-wild-0.5345.pth'
 state_dict = torch.load(model_path, map_location=device)
 model.load_state_dict(state_dict)
 model.train()  # Set model to training mode
 
 criterion = nn.BCEWithLogitsLoss()
-optimizer = optim.AdamW(model.parameters(), lr=1e-4, weight_decay=1e-5)
+optimizer = optim.AdamW(model.parameters(), lr=1e-5, weight_decay=1e-5)
 
 # Create datasets and data loaders
 root_dir = 'datasets/deepfake_in_the_wild'  # Path to your dataset folder
@@ -117,6 +117,10 @@ train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True, num_worker
 val_loader = DataLoader(val_dataset, batch_size=32, shuffle=False, num_workers=8, pin_memory=True)
 
 scaler = GradScaler()
+
+best_val_acc = 0
+patience = 3  # Number of epochs to wait for improvement
+counter = 0
 
 def train_epoch(model, train_loader, criterion, optimizer, device, scaler):
     model.train()
@@ -174,7 +178,7 @@ def validate(model, dataloader, criterion, device):
     return total_loss / len(dataloader), correct / total, all_labels, all_predictions
 
 # Fine-tuning loop
-num_epochs = 5
+num_epochs = 10
 print("Starting fine-tuning...")
 for epoch in range(num_epochs):
     print(f"\nEpoch [{epoch + 1}/{num_epochs}]")
@@ -184,7 +188,19 @@ for epoch in range(num_epochs):
 
     print(f'Train Loss: {train_loss:.4f}, Train Acc: {train_acc:.4f}')
     print(f'Val Loss: {val_loss:.4f}, Val Acc: {val_acc:.4f}')
-    torch.save(model.state_dict(), "finetuned-wild.pth")
+
+    checkpoint_filename = f"finetuned-wild-{val_acc:.4f}.pth"
+    torch.save(model.state_dict(), checkpoint_filename)
+
+    if val_acc > best_val_acc:
+        best_val_acc = val_acc
+        counter = 0
+        torch.save(model.state_dict(), "finetuned-best.pth")
+    else:
+        counter += 1
+        if counter >= patience:
+            print(f"Early stopping after epoch {epoch+1}")
+            break
     
 # Test the model
 model.eval()

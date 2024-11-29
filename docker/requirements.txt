@@ -11,3 +11,6 @@ Pillow
 scipy
 timm
 seaborn
+pytorch_lightning
+flask
+marlin-pytorch
