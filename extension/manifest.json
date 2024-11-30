@@ -1,22 +1,23 @@
 {
-    "manifest_version": 3,
-    "name": "Deepfake Detector",
-    "version": "1.0",
-    "permissions": [
-      "activeTab",
-      "storage"
-    ],
-    "background": {
+  "manifest_version": 3,
+  "name": "Deepfake Detector",
+  "version": "1.0",
+  "permissions": [
+      "activeTab", 
+      "storage", 
+      "contextMenus"
+  ],
+  "host_permissions": [
+      "<all_urls>",
+      "file://*"
+  ],
+  "background": {
       "service_worker": "background.js"
-    },
-    "content_scripts": [
+  },
+  "content_scripts": [
       {
-        "matches": ["<all_urls>"],
-        "js": ["content.js"]
+          "matches": ["<all_urls>", "file://*"],
+          "js": ["content.js"]
       }
-    ],
-    "action": {
-      "default_popup": "popup.html"
-    }
-  }
-  
+  ]
+}

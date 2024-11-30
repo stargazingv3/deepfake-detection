@@ -49,6 +49,8 @@ app = Flask(__name__)
 transform = transforms.Compose([
     transforms.Resize((384, 384)),
     transforms.ToTensor(),
+    # Convert RGBA to RGB
+    transforms.Lambda(lambda x: x[:3] if x.shape[0] == 4 else x),
     transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
 ])
 
@@ -92,7 +94,10 @@ def decode_base64(base64_str):
         base64_str = base64_str.split(',')[1]
         
     img_data = base64.b64decode(base64_str)
-    return Image.open(BytesIO(img_data))
+    image = Image.open(BytesIO(img_data))
+    
+    # Convert image to RGB
+    return image.convert('RGB')
 
 @app.route('/classify', methods=['POST'])
 def classify_image():
@@ -116,7 +121,7 @@ def classify_image():
     print("Prediction: ", prediction)
     print("Probability: ", probability)
     print("Confidence: ", confidence)
-    return jsonify({'prediction': prediction, 'confidence': confidence})
+    return jsonify({'prediction': prediction, 'probability': probability})
 
 
 if __name__ == '__main__':

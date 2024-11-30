@@ -2,17 +2,28 @@
 <html>
 <head>
     <title>Deepfake Detector</title>
+    <style>
+        body {
+            width: 300px;
+            padding: 10px;
+            font-family: Arial, sans-serif;
+        }
+        #result {
+            margin-top: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .real {
+            color: green;
+        }
+        .fake {
+            color: red;
+        }
+    </style>
 </head>
 <body>
-    <h3>Click on an image to classify it!</h3>
-    <p id="result">Prediction: N/A</p> <!-- Show the result here -->
+    <h2>Deepfake Detection Result</h2>
+    <div id="result">Waiting for image analysis...</div>
+    <script src="popup.js"></script>
 </body>
-<script>
-    chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-        if (request.action === 'showResult') {
-            document.getElementById('result').innerText = 
-                `Prediction: ${request.prediction} (Confidence: ${request.confidence})`;
-        }
-    });
-</script>
 </html>
