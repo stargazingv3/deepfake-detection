@@ -85,7 +85,7 @@ def load_model(model_path):
     model.eval()
     return model
 
-model = load_model('deepfake_model_best.pth')  # Adjust this to your model path
+model = load_model('finetuned-best.pth')  # Adjust this to your model path
 
 # Helper to convert base64 image to PIL image
 def decode_base64(base64_str):
