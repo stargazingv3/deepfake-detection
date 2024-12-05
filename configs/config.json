@@ -1,6 +1,0 @@
-{
-    "DATASET_PATH": "./data/",
-    "MODEL_NAME": "tf_efficientnetv2_xl_in21ft1k",
-    "INPUT_SIZE": [384, 384],
-    "NUM_CLASSES": 1
-}
